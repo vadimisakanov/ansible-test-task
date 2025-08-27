@@ -1,0 +1,28 @@
+---
+- name: Rename active network interface to net0
+  block:
+    - name: Identify current active network interface (excluding lo)
+      command: ip -o link show up | awk -F': ' '{print $2}' | grep -v lo
+      register: active_interfaces
+
+    - name: Set fact for current active interface
+      set_fact:
+        current_interface: "{{ active_interfaces.stdout_lines[0] }}"
+
+    - name: Rename interface using nmcli
+      command: nmcli connection modify {{ current_interface }} connection.id net0 ifname net0
+      register: rename_result
+      changed_when: rename_result.rc == 0
+
+    - name: Bring interface down then up with new name
+      block:
+        - command: nmcli device disconnect {{ current_interface }}
+        - command: nmcli device connect net0
+
+    - name: Display renamed interface info
+      debug:
+        msg: "Successfully renamed interface {{ current_interface }} to net0"
+
+  rescue:
+    - debug:
+        msg: "Failed to rename network interface. Manual intervention may be required."

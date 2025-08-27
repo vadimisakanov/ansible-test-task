@@ -3,11 +3,9 @@ Test task w Ansible
 
 ## Quick start
 
-1/ Configure your server address at `inventory/inventory.ini` and vars in `vars` directory
-
-2/ Run `ansible-playbook server-config.yaml --become --user ubuntu`
-
-3/ You're great!
+- Configure your server address in `inventory/inventory.ini` and vars in `vars/main.yaml`
+- Run `ansible-playbook server-config.yaml --become --user ubuntu`
+- You're great!
 
 ## Description
 
@@ -27,6 +25,7 @@ Playbooks:
 ├── encrypt-second-disk.yaml
 ├── playbooks
 ├── rename-nic.yaml
+├── list-cpus.yaml
 ├── server-config.yaml              - the main playbook
 Inventory:
 ├── inventory
@@ -36,8 +35,24 @@ Roles:
 │   ├── cpu-powersave-mode-off
 │   ├── disable-s-state
 │   ├── encrypt-second-disk
-│   └── rename-nic
+│   ├── rename-nic
+│   └── list-cpus
 Variables:
 ├── vars
     └── main.yaml
 ```
+
+++ %playbook-name%-README.md files with description for each role
+
+## Requirements
+
+- target system with `cryptsetup`, `nmcli`, `cpufrequtils` installed or available in repos
+- root privileges (become: yes)
+
+## Role Variables
+
+- `encrypted_partition`: The partition device path to encrypt (must be specified in inventory or overridden)
+
+## Usage
+
+Define `encrypted_partition` in vars/main.yaml, then execute the target playbook

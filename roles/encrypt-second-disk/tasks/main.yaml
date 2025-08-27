@@ -1,0 +1,32 @@
+---
+- name: Check if encrypted_partition is defined
+  fail:
+    msg: "encrypted_partition variable must be set to the partition to encrypt."
+  when: encrypted_partition == ""
+
+- name: Ensure cryptsetup is installed (Required for LUKS encryption)
+  package:
+    name: cryptsetup
+    state: present
+
+- name: Encrypt the specified partition with LUKS if not already encrypted
+  block:
+    - name: Check if partition is already a LUKS device
+      command: cryptsetup isLuks {{ encrypted_partition }}
+      register: luks_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: Encrypt partition with LUKS
+      command: cryptsetup luksFormat --batch-mode {{ encrypted_partition }}
+      when: luks_check.rc != 0
+
+    - name: Open encrypted partition
+      command: cryptsetup open {{ encrypted_partition }} encrypted_data
+      when: luks_check.rc != 0
+      register: luks_open
+      ignore_errors: yes
+
+  rescue:
+    - debug:
+        msg: "Failed to encrypt or open the partition {{ encrypted_partition }}; verify manually."

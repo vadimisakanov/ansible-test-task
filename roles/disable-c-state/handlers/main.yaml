@@ -1,0 +1,13 @@
+---
+- name: Update grub
+  command: grub2-mkconfig -o /boot/grub2/grub.cfg
+  notify: Reboot system
+
+- name: Reboot system
+  reboot:
+    msg: "Reboot initiated by Ansible for applying kernel parameters."
+    connect_timeout: 300
+    reboot_timeout: 600
+    pre_reboot_delay: 10
+    post_reboot_delay: 30
+

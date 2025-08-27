@@ -1,0 +1,10 @@
+---
+- name: Prepare server OS for operation
+  hosts: all
+  become: yes
+  vars:
+    encrypted_partition: "{{ hostvars[inventory_hostname]['encrypted_partition'] }}"
+  roles:
+    - encrypt-second-disk
+    - disable-c-state
+    - 

@@ -1,0 +1,12 @@
+---
+- name: Disable CPU C-states (to disable power-saving sleep states)
+  block:
+    - name: Create file to disable C-states in grub config
+      copy:
+        dest: /etc/default/grub.d/98_disable_cstates.cfg
+        content: 'GRUB_CMDLINE_LINUX="$GRUB_CMDLINE_LINUX intel_idle.max_cstate=0 processor.max_cstate=0"'
+      notify: Update grub
+
+  rescue:
+    - debug:
+        msg: "Failed to disable C-states; please check manually."

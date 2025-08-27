@@ -1,0 +1,17 @@
+---
+- name: Display CPU and Hyper-Threading information
+  block:
+    - name: Show CPU cores and threads
+      command: lscpu
+      register: cpu_info
+
+    - name: Show Hyper-Threading status on Intel or SMT status on AMD
+      command: |
+        lscpu | grep -E 'Thread|Core|Socket|CPU\('
+      register: ht_info
+
+    - name: Display CPU info and HT info
+      debug:
+        msg:
+          - "CPU Info: {{ cpu_info.stdout_lines }}"
+          - "Hyper-Threading / SMT Info: {{ ht_info.stdout_lines }}"
