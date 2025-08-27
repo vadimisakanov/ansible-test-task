@@ -3,7 +3,7 @@ Basic server configuration with Ansible, done for a test task, proudly created w
 
 ## Quick start
 - Configure your server address in `inventory/inventory.ini` and vars in `vars/main.yaml`
-- Run `ansible-playbook server-config.yaml --become --user ubuntu`
+- Run `ansible-playbook playbooks/server-config.yaml -i inventory/inventory.ini --become --user ubuntu`
 - You're great!
 
 ## Description
@@ -17,13 +17,13 @@ Directory structure according to Ansible Best-Practice directory layot https://d
 ```
 ├── README.md                       - this README
 Playbooks:
-├── cpu-powersave-mode-off.yaml
-├── disable-c-state.yaml
-├── encrypt-second-disk.yaml
 ├── playbooks
-├── rename-nic.yaml
-├── list-cpus.yaml
-├── server-config.yaml              - the main playbook
+│   ├── cpu-powersave-mode-off.yaml
+│   ├── disable-c-state.yaml
+│   ├── encrypt-second-disk.yaml
+│   ├── list-cpus.yaml
+│   ├── rename-nic.yaml
+│   └── server-config.yaml         - the main playbook
 Inventory:
 ├── inventory
     ├── inventory.ini
@@ -49,7 +49,9 @@ Variables:
 - `encrypted_partition`: The partition device path to encrypt (must be specified in inventory or overridden)
 
 ## Usage
-Redefine `encrypted_partition` in `vars/main.yaml` if needed and execute the target playbook
+Redefine `encrypted_partition` in `vars/main.yaml` if needed and execute the target playbook like
+
+`ansible-playbook playbooks/server-config.yaml -i inventory/inventory.ini --become --user ubuntu`
 
 `server-config.yaml` is the default playbook that runs all the tasks
 
