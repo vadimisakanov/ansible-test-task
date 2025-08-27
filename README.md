@@ -1,14 +1,12 @@
-# ansible-test-task
-Test task w Ansible
+# Basic server configuration
+Basic server configuration with Ansible, done for a test task, proudly created with the modern technology
 
 ## Quick start
-
 - Configure your server address in `inventory/inventory.ini` and vars in `vars/main.yaml`
 - Run `ansible-playbook server-config.yaml --become --user ubuntu`
 - You're great!
 
 ## Description
-
 Preparing a Linux server: configuring second disk encryption, disabling c-state, switch off CPU powersave mode, set active network interface name, list CPUs
 
 All the tasks described in separate roles, every role called with it's one playbook with the same name + one main role called `server-config.yaml` that calls all the roles at once
@@ -16,7 +14,6 @@ All the tasks described in separate roles, every role called with it's one playb
 Directory structure according to Ansible Best-Practice directory layot https://docs.ansible.com/ansible/2.8/user_guide/playbooks_best_practices.html#directory-layout
 
 ## Layout
-
 ```
 ├── README.md                       - this README
 Playbooks:
@@ -42,19 +39,16 @@ Variables:
     └── main.yaml
 ```
 
-++ %playbook-name%-README.md files with a description for each playbook
++ `%playbook-name%-README.md` files with a description for each playbook
 
 ## Requirements
-
 - target system with `cryptsetup`, `nmcli`, `cpufrequtils` installed or available in repos
 - root privileges (become: yes)
 
 ## Role Variables
-
 - `encrypted_partition`: The partition device path to encrypt (must be specified in inventory or overridden)
 
 ## Usage
-
 Redefine `encrypted_partition` in `vars/main.yaml` if needed and execute the target playbook
 
 `server-config.yaml` is the default playbook that runs all the tasks
