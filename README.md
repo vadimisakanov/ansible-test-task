@@ -42,7 +42,7 @@ Variables:
     └── main.yaml
 ```
 
-++ %playbook-name%-README.md files with description for each role
+++ %playbook-name%-README.md files with a description for each playbook
 
 ## Requirements
 
@@ -55,4 +55,8 @@ Variables:
 
 ## Usage
 
-Define `encrypted_partition` in vars/main.yaml, then execute the target playbook
+Redefine `encrypted_partition` in `vars/main.yaml` if needed and execute the target playbook
+
+`server-config.yaml` is the default playbook that runs all the tasks
+
+Other playbooks run one of the tasks only

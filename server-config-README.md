@@ -1,5 +1,7 @@
 `server-config.yaml` playbook, main playbook for the project
 
+Calls all the roles from the `roles` directory
+
 ## Implements the task:
 
 Prepare the OS using Ansible
